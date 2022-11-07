@@ -226,8 +226,9 @@ class SecuredChengChurchAlgorithmType2(BaseBiclusteringAlgorithm):
         sub_data = np.ascontiguousarray(sub_data)
 
         enc_sub_data = sub_data.flatten()
-
-        arr_sub_data = HE.encryptFrac(enc_sub_data)
+        arr_sub_data = np.empty(len(enc_sub_data), dtype=PyCtxt)
+        for i in np.arange(len(enc_sub_data)):
+            arr_sub_data[i] = HE.encryptFrac(enc_sub_data[i])
         arr_sub_data = arr_sub_data.reshape(sub_data.shape)
 
         # Encrypting data_mean
