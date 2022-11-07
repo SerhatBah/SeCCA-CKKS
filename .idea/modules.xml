@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/SeCCA-CKKS.iml" filepath="$PROJECT_DIR$/.idea/SeCCA-CKKS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SeCCA (CKKS)/.idea/SeCCA-CKKS.iml" filepath="$PROJECT_DIR$/SeCCA (CKKS)/.idea/SeCCA-CKKS.iml" />
     </modules>
   </component>
 </project>

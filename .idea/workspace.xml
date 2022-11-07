@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="8f8b0599-7684-46ad-935a-75dce1621d91" name="Changes" comment="Rename &quot;qi_sizer&quot; to &quot;qi&quot;&#10;&#10;Rollback{&#10;enc_sub_data = sub_data.flatten()&#10;arr_sub_data = HE.encryptFrac(enc_sub_data)&#10;rr_sub_data = arr_sub_data.reshape(sub_data.shape)&#10;}">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/SeCCA (CKKS)/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/SeCCA (CKKS)/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/SeCCA-CKKS.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SeCCA (CKKS)/.idea/SeCCA-CKKS.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/SeCCA (CKKS)/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/SeCCA (CKKS)/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/SeCCA (CKKS)/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/SeCCA (CKKS)/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/SeCCA (CKKS)/.idea/vcs.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2HDhxEjbjtfSYvC3yZn3atYZAUr" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/serhat/Downloads/SeCCA-main&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8f8b0599-7684-46ad-935a-75dce1621d91" name="Changes" comment="" />
+      <created>1667825805378</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1667825805378</updated>
+      <workItem from="1667825806660" duration="7559000" />
+      <workItem from="1667836440137" duration="839000" />
+    </task>
+    <task id="LOCAL-00001" summary="Rename &quot;qi_sizer&quot; to &quot;qi&quot;">
+      <created>1667826037342</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1667826037342</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Rename &quot;qi_sizer&quot; to &quot;qi&quot;&#10;&#10;Rollback{&#10;enc_sub_data = sub_data.flatten()&#10;arr_sub_data = HE.encryptFrac(enc_sub_data)&#10;rr_sub_data = arr_sub_data.reshape(sub_data.shape)&#10;}">
+      <created>1667834865366</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1667834865366</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Rename &quot;qi_sizer&quot; to &quot;qi&quot;&#10;&#10;Rollback{&#10;enc_sub_data = sub_data.flatten()&#10;arr_sub_data = HE.encryptFrac(enc_sub_data)&#10;rr_sub_data = arr_sub_data.reshape(sub_data.shape)&#10;}">
+      <created>1667834928482</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1667834928482</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Rename &quot;qi_sizer&quot; to &quot;qi&quot;&#10;&#10;Rollback{&#10;enc_sub_data = sub_data.flatten()&#10;arr_sub_data = HE.encryptFrac(enc_sub_data)&#10;rr_sub_data = arr_sub_data.reshape(sub_data.shape)&#10;}">
+      <created>1667835486385</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1667835486385</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Rename &quot;qi_sizer&quot; to &quot;qi&quot;" />
+    <MESSAGE value="Rename &quot;qi_sizer&quot; to &quot;qi&quot;&#10;&#10;Rollback{&#10;enc_sub_data = sub_data.flatten()&#10;arr_sub_data = HE.encryptFrac(enc_sub_data)&#10;rr_sub_data = arr_sub_data.reshape(sub_data.shape)&#10;}" />
+    <option name="LAST_COMMIT_MESSAGE" value="Rename &quot;qi_sizer&quot; to &quot;qi&quot;&#10;&#10;Rollback{&#10;enc_sub_data = sub_data.flatten()&#10;arr_sub_data = HE.encryptFrac(enc_sub_data)&#10;rr_sub_data = arr_sub_data.reshape(sub_data.shape)&#10;}" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/SeCCA_CKKS$type2.coverage" NAME="type2 Coverage Results" MODIFIED="1667828976440" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/SeCCA (CKKS)/biclustlib/algorithms" />
+    <SUITE FILE_PATH="coverage/SeCCA_CKKS$secured_cheng_church_yeast.coverage" NAME="secured_cheng_church_yeast Coverage Results" MODIFIED="1667836624300" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/SeCCA (CKKS)" />
+  </component>
+</project>
