@@ -1,6 +1,4 @@
-import numpy as np
 import time
-from biclustlib.algorithms import ChengChurchAlgorithm
 from biclustlib.algorithms import SecuredChengChurchAlgorithm
 from biclustlib.datasets import synthetic
 
