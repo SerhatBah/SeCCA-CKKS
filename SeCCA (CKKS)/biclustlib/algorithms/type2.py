@@ -14,7 +14,7 @@ from Pyfhel import Pyfhel, PyCtxt
 from scipy import stats
 
 import numpy as np
-import bottleneck as bn
+# import bottleneck as bn
 import random
 import math
 import pandas as pd
@@ -63,7 +63,7 @@ class SecuredChengChurchAlgorithmType2(BaseBiclusteringAlgorithm):
         """
         print("SeCCA Step 2")
         # Creating empty Pyfhel object
-        HE = Pyfhel()
+        """HE = Pyfhel()
         # Generating context
         ckks_params = {
             'scheme': 'CKKS',  # can also be 'ckks'
@@ -81,6 +81,24 @@ class SecuredChengChurchAlgorithmType2(BaseBiclusteringAlgorithm):
         HE.contextGen(**ckks_params)  # Generate context for bfv scheme
         # Key Generation
         HE.keyGen()
+"""
+        HE = Pyfhel()  # Creating empty Pyfhel object
+        ckks_params = {
+            'scheme': 'CKKS',  # can also be 'ckks'
+            'n': 2 ** 14,  # Polynomial modulus degree. For CKKS, n/2 values can be
+            #  encoded in a single ciphertext.
+            #  Typ. 2^D for D in [10, 16]
+            'scale': 2 ** 30,  # All the encodings will use it for float->fixed point
+            #  conversion: x_fix = round(x_float * scale)
+            #  You can use this as default scale or use a different
+            #  scale on each operation (set in HE.encryptFrac)
+            'qi_sizes': [60, 30, 30, 30, 60]  # Number of bits of each prime in the chain.
+            # Intermediate values should be  close to log2(scale)
+            # for each operation, to have small rounding errors.
+        }
+        HE.contextGen(**ckks_params)  # Generate context for bfv scheme
+        HE.keyGen()  # Key Generation: generates a pair of public/secret keys
+        HE.rotateKeyGen()
 
         data = check_array(data, dtype=np.double, copy=True)
         self._validate_parameters()
@@ -206,10 +224,10 @@ class SecuredChengChurchAlgorithmType2(BaseBiclusteringAlgorithm):
         t_enc0 = time.perf_counter()
         sub_data = data[rows][:, cols]
         sub_data = np.ascontiguousarray(sub_data)
+
         enc_sub_data = sub_data.flatten()
-        arr_sub_data = np.empty(len(enc_sub_data), dtype=PyCtxt)
-        for i in np.arange(len(enc_sub_data)):
-            arr_sub_data[i] = HE.encryptFrac(enc_sub_data[i])
+
+        arr_sub_data = HE.encryptFrac(enc_sub_data)
         arr_sub_data = arr_sub_data.reshape(sub_data.shape)
 
         # Encrypting data_mean
