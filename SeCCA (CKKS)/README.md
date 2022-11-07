@@ -17,7 +17,7 @@ First you need to ensure that all packages have been installed.
 
 You can clone this repository:
 
-	   > git clone https://github.com/ShokofehVS/SeCCA.git
+	   > git clone https://github.com/SerhatBah/SeCCA-CKKS.git
 
 If you miss something you can simply type:
 
