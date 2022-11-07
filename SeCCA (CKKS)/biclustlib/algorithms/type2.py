@@ -92,7 +92,7 @@ class SecuredChengChurchAlgorithmType2(BaseBiclusteringAlgorithm):
             #  conversion: x_fix = round(x_float * scale)
             #  You can use this as default scale or use a different
             #  scale on each operation (set in HE.encryptFrac)
-            'qi_sizes': [60, 30, 30, 30, 60]  # Number of bits of each prime in the chain.
+            'qi': [60, 30, 30, 30, 60]  # Number of bits of each prime in the chain.
             # Intermediate values should be  close to log2(scale)
             # for each operation, to have small rounding errors.
         }
