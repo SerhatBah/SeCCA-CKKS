@@ -225,6 +225,7 @@ class SecuredChengChurchAlgorithmType2(BaseBiclusteringAlgorithm):
         sub_data = data[rows][:, cols]
         sub_data = np.ascontiguousarray(sub_data)
 
+
         enc_sub_data = sub_data.flatten()
         arr_sub_data = np.empty(len(enc_sub_data), dtype=PyCtxt)
         for i in np.arange(len(enc_sub_data)):
