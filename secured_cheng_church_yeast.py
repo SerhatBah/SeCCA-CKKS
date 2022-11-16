@@ -8,7 +8,14 @@ from biclustlib.algorithms import SecuredChengChurchAlgorithmType2
 m0 = time.perf_counter()
 
 # load yeast data used in the original Cheng and Church's paper
-data = np.random.randint(0, 5, size=(10, 5))
+    #data = np.random.randint(0, 5, size=(10, 5))
+
+# DATA GENERATION
+num_rows, num_cols = 10, 5
+n_elements = num_rows*num_cols
+np.random.seed(42)                                          # Fixed seed for reproducibility
+data = np.random.randint(0, 5, size=(num_rows, num_cols))   # Generate data
+
 #load_yeast_tavazoie().values
 
 # missing value imputation suggested by Cheng and Church

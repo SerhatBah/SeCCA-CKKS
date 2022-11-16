@@ -1,6 +1,6 @@
 import time
 from biclustlib.algorithms import ChengChurchAlgorithm
-from biclustlib.algorithms import SecuredChengChurchAlgorithmType2
+#from biclustlib.algorithms import SecuredChengChurchAlgorithmType2
 from biclustlib.evaluation import clustering_error
 from biclustlib.datasets import load_yeast_tavazoie
 from biclustlib.datasets import synthetic

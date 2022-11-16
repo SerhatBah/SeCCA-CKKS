@@ -54,6 +54,7 @@ class SecuredChengChurchAlgorithmType2(BaseBiclusteringAlgorithm):
         self.multiple_node_deletion_threshold = multiple_node_deletion_threshold
         self.data_min_cols = data_min_cols
 
+
     def run(self, data):
         """Compute biclustering.
 
@@ -92,13 +93,15 @@ class SecuredChengChurchAlgorithmType2(BaseBiclusteringAlgorithm):
             #  conversion: x_fix = round(x_float * scale)
             #  You can use this as default scale or use a different
             #  scale on each operation (set in HE.encryptFrac)
-            'qi': [60, 30, 30, 30, 60]  # Number of bits of each prime in the chain.
+            'qi_sizes': [60, 30, 30, 30, 60]  # Number of bits of each prime in the chain.
             # Intermediate values should be  close to log2(scale)
             # for each operation, to have small rounding errors.
         }
+
         HE.contextGen(**ckks_params)  # Generate context for bfv scheme
         HE.keyGen()  # Key Generation: generates a pair of public/secret keys
         HE.rotateKeyGen()
+        HE.relinKeyGen()  # Relinearization key generation
 
         data = check_array(data, dtype=np.double, copy=True)
         self._validate_parameters()
@@ -223,40 +226,42 @@ class SecuredChengChurchAlgorithmType2(BaseBiclusteringAlgorithm):
         # 4. Reshape the array
         t_enc0 = time.perf_counter()
         sub_data = data[rows][:, cols]
-        sub_data = np.ascontiguousarray(sub_data)
+        sub_data = np.ascontiguousarray(sub_data).flatten().astype(np.float64)
+        arr_sub_data = HE.encryptFrac(sub_data)
+        n_elements = len(rows) * len(cols)
+        # No reshape!
 
+        # Row-wise sum & Encrypting row_means
+        enc_rowwise_sum = PyCtxt(copy_ctxt=arr_sub_data)
+        for i in range(1, len(cols)):
+            enc_rowwise_sum += arr_sub_data << i
 
-        enc_sub_data = sub_data.flatten()
-        arr_sub_data = np.empty(len(enc_sub_data), dtype=PyCtxt)
-        for i in np.arange(len(enc_sub_data)):
-            arr_sub_data[i] = HE.encryptFrac(enc_sub_data[i])
-        arr_sub_data = arr_sub_data.reshape(sub_data.shape)
+        # Column-wise sum & Encrypting col_means
+        enc_colwise_sum = PyCtxt(copy_ctxt=arr_sub_data)
+        for i in range(1, len(rows)):
+            enc_colwise_sum += arr_sub_data << (i * len(cols))
 
         # Encrypting data_mean
-        enc_data_mean = np.sum(arr_sub_data) / len(enc_sub_data)
+        enc_data_mean = np.sum(arr_sub_data) / len(arr_sub_data)
 
-        # Encrypting row_means
-        enc_row_means = np.mean(arr_sub_data, axis=1)
-        enc_row_means = enc_row_means.reshape((sub_data.shape[0], 1))
+        # 1. Mean
+        enc_row_means = enc_rowwise_sum / len(rows)
+        enc_col_means = enc_colwise_sum / len(cols)
+        c_mean = enc_data_mean
 
-        # Encrypting col_means
-        enc_col_means = np.mean(arr_sub_data, axis=0)
+        #  2. MSE
+        enc_row_means = ~((enc_row_means - c_mean) ** 2)
+        enc_col_means = (~(enc_col_means - c_mean) ** 2)
+        enc_squared_residues = (enc_row_means + enc_col_means)
 
-        # Encrypting Residues
-        enc_residues = arr_sub_data - enc_row_means - enc_col_means + enc_data_mean
-
-        # Encrypting Squared Residues
-        enc_squared_residues = enc_residues ** 2
-
-        # Encrypting msr
-        enc_squared_residues_flatten = enc_squared_residues.flatten()
-        enc_msr = np.sum(enc_squared_residues) / len(enc_squared_residues_flatten)
-
-        # Encrypting row_msr
-        enc_row_msr = np.mean(enc_squared_residues, axis=1)
-
-        # Encrypting col_msr
-        enc_col_msr = np.mean(enc_squared_residues, axis=0)
+        #  3. Cumulative sum
+        enc_squared_residues += (enc_squared_residues << 1)
+        enc_squared_residues += (enc_squared_residues << 2)  # element 0 contains the result
+        print("\n5. Rescaling & Mod Switching.")
+        print("->\tMean: ", c_mean)
+        print("->\tMSE_1: ", enc_row_means)
+        print("->\tMSE_2: ", enc_col_means)
+        print("->\tMSE: ", enc_squared_residues)
 
         t_enc1 = time.perf_counter()
         t_enc.append(t_enc1 - t_enc0)
@@ -264,23 +269,20 @@ class SecuredChengChurchAlgorithmType2(BaseBiclusteringAlgorithm):
 
         # Decrypting msr
         t_dec0 = time.perf_counter()
-        decrypted_msr = HE.decryptFrac(enc_msr)
+        decrypted_msr = enc_squared_residues.decrypt()[:n_elements:len(enc_squared_residues)].round()
 
         # Decrypting msr_row
-        decrypted_msr_row = np.empty(len(enc_row_msr), dtype=PyCtxt)
-        for i in np.arange(len(enc_row_msr)):
-            decrypted_msr_row[i] = HE.decryptFrac(enc_row_msr[i])
+        decrypted_msr_row = enc_rowwise_sum.decrypt()[:n_elements:len(cols)].round()
 
         # Decrypting msr_col
-        decrypted_msr_col = np.empty(len(enc_col_msr), dtype=PyCtxt)
-        for i in np.arange(len(enc_col_msr)):
-            decrypted_msr_col[i] = HE.decryptFrac(enc_col_msr[i])
-        t_dec1 = time.perf_counter()
+        decrypted_msr_col = enc_colwise_sum.decrypt()[:len(cols)].round()
 
+        t_dec1 = time.perf_counter()
         t_dec.append(t_dec1 - t_dec0)
         print("Decryption time: ", round(sum(t_dec), 5), "Seconds")
 
         return decrypted_msr, decrypted_msr_row, decrypted_msr_col
+
 
     def _calculate_msr_col_addition(self, data, rows, cols):
         """Calculate the mean squared residues of the columns for the node addition step."""
@@ -316,6 +318,7 @@ class SecuredChengChurchAlgorithmType2(BaseBiclusteringAlgorithm):
         row_inverse_msr = np.mean(row_inverse_squared_residues, axis=1)
 
         return row_msr, row_inverse_msr
+
 
     def _validate_parameters(self):
         if self.num_biclusters <= 0:
