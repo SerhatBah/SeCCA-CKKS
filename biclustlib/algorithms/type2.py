@@ -245,18 +245,24 @@ class SecuredChengChurchAlgorithmType2(BaseBiclusteringAlgorithm):
         enc_data_mean = np.sum(arr_sub_data) / len(arr_sub_data)
 
         # 1. Mean
-        enc_row_means = enc_rowwise_sum / len(rows)
-        enc_col_means = enc_colwise_sum / len(cols)
+        enc_row_means = enc_rowwise_sum / len(cols)
+        enc_col_means = enc_colwise_sum / len(rows)
         c_mean = enc_data_mean
 
+        # Encrypting Residues
+        enc_residues = arr_sub_data - enc_row_means - enc_col_means + enc_data_mean
+
+        # Encrypting Squared Residues
+        enc_squared_residues = enc_residues ** 2
+
         #  2. MSE
-        enc_row_means = ~((enc_row_means - c_mean) ** 2)
-        enc_col_means = (~(enc_col_means - c_mean) ** 2)
-        enc_squared_residues = (enc_row_means + enc_col_means)
+        #enc_row_means = ~((enc_row_means - c_mean) ** 2)
+        #enc_col_means = (~(enc_col_means - c_mean) ** 2)
+        #enc_squared_residues = (enc_row_means + enc_col_means)
 
         #  3. Cumulative sum
-        enc_squared_residues += (enc_squared_residues << 1)
-        enc_squared_residues += (enc_squared_residues << 2)  # element 0 contains the result
+       # enc_squared_residues += (enc_squared_residues << 1)
+        #enc_squared_residues += (enc_squared_residues << 2)  # element 0 contains the result
         print("\n5. Rescaling & Mod Switching.")
         print("->\tMean: ", c_mean)
         print("->\tMSE_1: ", enc_row_means)
