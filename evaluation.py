@@ -1,25 +1,32 @@
 from biclustlib.algorithms import ChengChurchAlgorithm
-from biclustlib.algorithms import SecuredChengChurchAlgorithm
-from biclustlib.algorithms import SecuredChengChurchAlgorithmType1
+#from biclustlib.algorithms import SecuredChengChurchAlgorithm
+#from biclustlib.algorithms import SecuredChengChurchAlgorithmType1
 from biclustlib.algorithms import SecuredChengChurchAlgorithmType2
-from biclustlib.algorithms import SecuredChengChurchAlgorithmType3
-from biclustlib.algorithms import SecuredChengChurchAlgorithmType4
+#from biclustlib.algorithms import SecuredChengChurchAlgorithmType3
+#from biclustlib.algorithms import SecuredChengChurchAlgorithmType4
 from biclustlib.evaluation import clustering_error
-from biclustlib.datasets import load_yeast_tavazoie
+#from biclustlib.datasets import load_yeast_tavazoie
 import matplotlib.pyplot as plt
+import numpy as np
 
 
-data = load_yeast_tavazoie().values
-num_rows, num_cols = data.shape
+#data = load_yeast_tavazoie().values
+#num_rows, num_cols = data.shape
+
+# DATA GENERATION
+num_rows, num_cols = 10, 5
+n_elements = num_rows*num_cols
+np.random.seed(42)                                          # Fixed seed for reproducibility
+data = np.random.randint(0, 5, size=(num_rows, num_cols))   # Generate data
 
 cca = ChengChurchAlgorithm(num_biclusters=5, msr_threshold=300.0, multiple_node_deletion_threshold=1.2)
-secca = SecuredChengChurchAlgorithm(num_biclusters=5, msr_threshold=300.0, multiple_node_deletion_threshold=1.2)
-type1 = SecuredChengChurchAlgorithmType1(num_biclusters=5, msr_threshold=300.0, multiple_node_deletion_threshold=1.2)
+#secca = SecuredChengChurchAlgorithm(num_biclusters=5, msr_threshold=300.0, multiple_node_deletion_threshold=1.2)
+#type1 = SecuredChengChurchAlgorithmType1(num_biclusters=5, msr_threshold=300.0, multiple_node_deletion_threshold=1.2)
 type2 = SecuredChengChurchAlgorithmType2(num_biclusters=5, msr_threshold=300.0, multiple_node_deletion_threshold=1.2)
-type3 = SecuredChengChurchAlgorithmType3(num_biclusters=5, msr_threshold=300.0, multiple_node_deletion_threshold=1.2)
-type4 = SecuredChengChurchAlgorithmType4(num_biclusters=5, msr_threshold=300.0, multiple_node_deletion_threshold=1.2)
+#type3 = SecuredChengChurchAlgorithmType3(num_biclusters=5, msr_threshold=300.0, multiple_node_deletion_threshold=1.2)
+#type4 = SecuredChengChurchAlgorithmType4(num_biclusters=5, msr_threshold=300.0, multiple_node_deletion_threshold=1.2)
 
-secca_alog = [type1, type2, type3, type4, secca]
+secca_alog = [type2]
 biclustering_ref = cca.run(data)
 
 ce_eval = []

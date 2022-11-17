@@ -116,7 +116,7 @@ class SecuredChengChurchAlgorithmType2(BaseBiclusteringAlgorithm):
         t_enc = []
         t_dec = []
         for i in range(self.num_biclusters):
-            print("Number of the Bicluster:{}".format(i+1))
+            print("Number of the Bicluster:{}".format(num_cols))
             rows = np.ones(num_rows, dtype=np.bool)
             cols = np.ones(num_cols, dtype=np.bool)
 
@@ -145,7 +145,7 @@ class SecuredChengChurchAlgorithmType2(BaseBiclusteringAlgorithm):
         the original paper)"""
         msr, row_msr, col_msr = self._calculate_msr(data, rows, cols, HE, t_enc, t_dec)
 
-        while msr > msr_thr:
+        while msr.all() > msr_thr.all():
             self._single_deletion(data, rows, cols, row_msr, col_msr, HE)
             msr, row_msr, col_msr = self._calculate_msr(data, rows, cols, HE, t_enc, t_dec)
 
@@ -169,7 +169,7 @@ class SecuredChengChurchAlgorithmType2(BaseBiclusteringAlgorithm):
         the original paper)"""
         msr, row_msr, col_msr = self._calculate_msr(data, rows, cols, HE, t_enc, t_dec)
 
-        stop = True if msr <= msr_thr else False
+        stop = True if msr.all() <= msr_thr.all() else False
 
         while not stop:
             cols_old = np.copy(cols)
@@ -203,12 +203,12 @@ class SecuredChengChurchAlgorithmType2(BaseBiclusteringAlgorithm):
 
             msr, _, _ = self._calculate_msr(data, rows, cols, HE, t_enc, t_dec)
             col_msr = self._calculate_msr_col_addition(data, rows, cols)
-            cols2add = np.where(col_msr <= msr)[0]
+            cols2add = np.where(col_msr.all() <= msr.all())[0]
             cols[cols2add] = True
 
             msr, _, _ = self._calculate_msr(data, rows, cols, HE, t_enc, t_dec)
             row_msr, row_inverse_msr = self._calculate_msr_row_addition(data, rows, cols)
-            rows2add = np.where(np.logical_or(row_msr <= msr, row_inverse_msr <= msr))[0]
+            rows2add = np.where(np.logical_or(row_msr.all() <= msr.all(), row_inverse_msr.all() <= msr.all()))[0]
             rows[rows2add] = True
 
             if np.all(rows == rows_old) and np.all(cols == cols_old):
