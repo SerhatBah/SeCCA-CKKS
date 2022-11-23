@@ -20,6 +20,7 @@ np.random.seed(42)                                          # Fixed seed for rep
 data = np.random.randint(0, 5, size=(num_rows, num_cols))   # Generate data
 
 cca = ChengChurchAlgorithm(num_biclusters=5, msr_threshold=300.0, multiple_node_deletion_threshold=1.2)
+
 #secca = SecuredChengChurchAlgorithm(num_biclusters=5, msr_threshold=300.0, multiple_node_deletion_threshold=1.2)
 #type1 = SecuredChengChurchAlgorithmType1(num_biclusters=5, msr_threshold=300.0, multiple_node_deletion_threshold=1.2)
 type2 = SecuredChengChurchAlgorithmType2(num_biclusters=5, msr_threshold=300.0, multiple_node_deletion_threshold=1.2)

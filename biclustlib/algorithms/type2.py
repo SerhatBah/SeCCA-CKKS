@@ -247,7 +247,6 @@ class SecuredChengChurchAlgorithmType2(BaseBiclusteringAlgorithm):
         # 1. Mean
         enc_row_means = enc_rowwise_sum / len(cols)
         enc_col_means = enc_colwise_sum / len(rows)
-        c_mean = enc_data_mean
 
         # Encrypting Residues
         enc_residues = arr_sub_data - enc_row_means - enc_col_means + enc_data_mean
@@ -255,19 +254,26 @@ class SecuredChengChurchAlgorithmType2(BaseBiclusteringAlgorithm):
         # Encrypting Squared Residues
         enc_squared_residues = enc_residues ** 2
 
-        #  2. MSE
-        #enc_row_means = ~((enc_row_means - c_mean) ** 2)
-        #enc_col_means = (~(enc_col_means - c_mean) ** 2)
-        #enc_squared_residues = (enc_row_means + enc_col_means)
+        HE.relinearize(enc_squared_residues)
+        HE.rescale_to_next(enc_squared_residues)
+        enc_squared_residues = HE.encrypt(len(enc_squared_residues))
+        HE.mod_switch_to_next(enc_squared_residues)
 
-        #  3. Cumulative sum
-       # enc_squared_residues += (enc_squared_residues << 1)
-        #enc_squared_residues += (enc_squared_residues << 2)  # element 0 contains the result
-        print("\n5. Rescaling & Mod Switching.")
-        print("->\tMean: ", c_mean)
+        # Encrypting msr
+        enc_msr = np.sum(enc_squared_residues) / len(enc_squared_residues)
+
+        # Encrypting row_msr
+        enc_row_msr = enc_squared_residues / len(enc_squared_residues)
+
+        # Encrypting col_msr
+        enc_col_msr = enc_squared_residues / len(enc_squared_residues)
+
+        print("\nRescaling & Mod Switching.")
+        print("->\tMean: ", enc_data_mean)
         print("->\tMSE_1: ", enc_row_means)
-        print("->\tMSE_2: ", enc_col_means)
-        print("->\tMSE: ", enc_squared_residues)
+        print("->\tenc_msr: ", enc_msr)
+        print("->\tenc_row_msr: ", enc_row_msr)
+        print("->\tenc_col_msr: ", enc_col_msr)
 
         t_enc1 = time.perf_counter()
         t_enc.append(t_enc1 - t_enc0)
