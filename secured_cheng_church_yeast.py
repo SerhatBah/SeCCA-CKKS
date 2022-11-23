@@ -10,9 +10,9 @@ m0 = time.perf_counter()
 data = load_yeast_tavazoie().values
 
 # DATA GENERATION
-num_rows, num_cols = data.shape
-n_elements = num_rows*num_cols
-np.random.seed(42)          # Fixed seed for reproducibility
+#num_rows, num_cols = 2884, 17
+#n_elements = num_rows*num_cols
+#np.random.seed(42)          # Fixed seed for reproducibility
 #data = np.random.randint(0, 5, size=(num_rows, num_cols))   # Generate data
 
 # missing value imputation suggested by Cheng and Church
@@ -20,7 +20,7 @@ missing = np.where(data < 0.0)
 data[missing] = np.random.randint(low=0, high=800, size=len(missing[0]))
 
 # creating an instance of the SecuredChengChurchAlgorithm class and running with the parameters
-secca = SecuredChengChurchAlgorithmType2(num_biclusters=num_rows, msr_threshold=300.0, multiple_node_deletion_threshold=1.2)
+secca = SecuredChengChurchAlgorithmType2(num_biclusters=5, msr_threshold=300.0, multiple_node_deletion_threshold=1.2)
 biclustering = secca.run(data)
 print(biclustering)
 

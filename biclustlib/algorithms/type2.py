@@ -116,7 +116,7 @@ class SecuredChengChurchAlgorithmType2(BaseBiclusteringAlgorithm):
         t_enc = []
         t_dec = []
         for i in range(self.num_biclusters):
-            print("Number of the Bicluster:{}".format(num_cols))
+            print("Number of the Bicluster:{}".format(num_rows))
             rows = np.ones(num_rows, dtype=np.bool)
             cols = np.ones(num_cols, dtype=np.bool)
 
